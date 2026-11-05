@@ -16,7 +16,7 @@ A lightweight tool for finding ontology concepts using semantic search, entirely
 ```text
 Ontology (OWL)
     ↓
-Embeddings (multilingual-e5-large)
+Embeddings
     ↓
 FAISS Vector Index
     ↓
@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 ## Build the Index
 
-Place your ontology file (for example [`nmdo.owl`](https://github.com/NeuromuscularDisease/neuromuscular-disease-ontology/blob/main/nmdo-full.owl)) in the project folder and generate the vector index:
+Place your ontology file (for example [`nmdo-full.owl`](https://github.com/NeuromuscularDisease/neuromuscular-disease-ontology/blob/main/nmdo-full.owl)) in the project folder and generate the vector index:
 
 ```bash
 python build_embeddings.py ontology_file.owl
@@ -55,31 +55,29 @@ Retrieve the most relevant ontology concepts:
 python search.py
 ```
 
+> **Note:** The embedding model can be changed in `build_embeddings.py`, but the same model must also be configured in `search.py` and `ontology_assistant.py`. If you change the embedding model, you must rebuild the FAISS index.
+
 ## Optional: Semantic Search with Explanations
 
-If you would like the tool to explain why a concept was selected, you can enable a local LLM.
-
-Install an Ollama-compatible model:
-
-```bash
-ollama pull qwen2.5:1.5b
-```
-
-This repository uses **Qwen 2.5 1.5B** in the examples because it offers a good balance between quality, speed, and CPU usage, making it suitable for typical laptops and desktop computers. If your hardware allows it, you can use any Ollama-compatible model by changing the model name in the code.
-
-### Run the Assistant
-
-Start the local Ollama server:
+Start Ollama:
 
 ```bash
 ollama serve
 ```
 
-Then, in a second terminal:
+In a second terminal, download a model (only required once):
+
+```bash
+ollama pull qwen2.5:1.5b
+```
+
+Then run:
 
 ```bash
 python ontology_assistant.py
 ```
+
+This repository uses **Qwen 2.5 1.5B** because it provides a good balance between quality, speed, and CPU usage, making it suitable for most laptops and desktop computers. You can replace it with any Ollama-compatible model by changing the model name in the code.
 
 The assistant will retrieve the most relevant ontology concepts and provide a short explanation of why they were selected.
 
