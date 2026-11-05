@@ -12,7 +12,7 @@ with open("ontology_metadata.pkl", "rb") as f:
     metadata = pickle.load(f)
 
 model = SentenceTransformer(
-    "BAAI/bge-small-en-v1.5"
+    "intfloat/multilingual-e5-large"
 )
 
 while True:
